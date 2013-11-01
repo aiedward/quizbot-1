@@ -1,0 +1,32 @@
+Standalone installation
+=======================
+
+   Run make, for installing this plugin together with DasBot and questions from
+   moxquiz in a DasBot subtree of current folder.
+
+   cd to DasBot/src, configure your bot with createing a GlobalConfig.py based
+   on GlobalConfig.py.template - you will have to enable Cronjobs, and you should 
+   change nick and startup channel. Cronjobs are enabled in this line:
+   # CRON JOB BOT config
+   START_CRON_BOT = True
+   
+
+   run bot with:
+   python dasbot
+
+
+   The preinstalled test-database uses the secret 'secret' for encrypting passwords.
+
+
+   Login to the admin test user with sending the bot this message through irc:
+   .login admin rootme
+
+   Load Quiz-plugin with:
+   .load Quiz
+
+   Start Quiz with random questions:
+   .q-start
+
+This plugin is tested with version 0.24 of DasBot runned in version 2.7 of python.
+
+Please check trondth.at.ifi.uio.no/quizbot for newest version of this plugin.
