@@ -51,9 +51,11 @@
       }
 
       #qb-footer {
+        width: 100%;
       border-top: 1px solid #ccc;
       margin-top: 70px;
       padding-top: 35px;
+      padding-bottom: 35px;
       }
 
       </style>
@@ -68,143 +70,143 @@
     </head>
     <body data-spy="scroll" data-target="#qb-sidenav">
 
-      <script src="http://code.jquery.com/jquery.js"></script>
-      <script src="dist/js/bootstrap.js"></script>
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="dist/js/bootstrap.js"></script>
 
-      <nav class="nav nav-pills nav-stacked navbar-fixed-top" id="qb-header">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">QuizBot</a>
-        </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">About</a></li>
-            <li><a href="https://github.com/trondth/quizbot">GitHub</a></li>
+    <nav class="nav nav-pills nav-stacked navbar-fixed-top" id="qb-header">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">QuizBot</a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">About</a></li>
+          <li><a href="https://github.com/trondth/quizbot">GitHub</a></li>
+        </ul>
+      </div>
+
+    </nav>
+
+    <div class="row">
+
+      <div class="hidden-xs hidden-sm col-md-2">
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="affix" id="qb-sidenav">
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="#quizbot">Top</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#requirements">Requirements</a></li>
+            <li><a href="#download">Download</a></li>
+            <li><a href="#standalone">Installation</a></li>
+            <li><a href="#roadmap">Roadmap</a></li>
           </ul>
         </div>
-        
-      </nav>
 
-      <div class="row">
-      
-        <div class="hidden-xs hidden-sm col-md-2">
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="affix" id="qb-sidenav">
-            <ul class="nav nav-pills nav-stacked">
-              <li><a href="#quizbot">Top</a></li>
-              <li><a href="#features">Features</a></li>
-              <li><a href="#requirements">Requirements</a></li>
-              <li><a href="#download">Download</a></li>
-              <li><a href="#standalone">Installation</a></li>
-              <li><a href="#roadmap">Roadmap</a></li>
-            </ul>
-          </div>
+      </div>
 
+
+
+      <div class="col-xs-12 col-md-10 col-lg-7">
+        <div class="page-header">
+          <h1 id="quizbot">Quizbot for DasBot</h1>
         </div>
-        
+        <p>The Quiz-plugin for DasBot began as a project in INF3331. This page is based on the <a href="http://trondth.at.ifi.uio.no/quizbot">report page</a> for that project.</p>
 
+        <h2 id="features">Features</h2>
+        <p>The plugin can run quizzes in one or more irc-channels. You can load questions from text files in the same format as Moxquizz, and use different sets of questions in different channels.</p>
 
-        <div class="col-xs-12 col-md-10 col-lg-7">
-              <div class="page-header">
-                <h1 id="quizbot">Quizbot for DasBot</h1>
-              </div>
-              <p>The Quiz-plugin for DasBot began as a project in INF3331. This page is based on the <a href="http://trondth.at.ifi.uio.no/quizbot">report page</a> for that project.</p>
+        <img src="screenshot.png" alt="Screenshot" />
 
-<h2 id="features">Features</h2>
-              <p>The plugin can run quizzes in one or more irc-channels. You can load questions from text files in the same format as Moxquizz, and use different sets of questions in different channels.</p>
-              
-<img src="screenshot.png" alt="Screenshot" />
+        <h2 id="requirements">Requirements</h2>
+        <ul>
+          <li>Python 2.7 with sqlite3 module</li>
+          <li>DasBot</li>
+          <li>Question data, for example from Moxquizz, encoded in plain ascii or utf-8</li>
+        </ul>
+        <p>The plugin comes with a Makefile, that installs DasBot with plugins and questions from Moxquizz. In addition to this, you will need Python 2.7 with sqlite support. Other DasBot-plugins have additional requirements. I recommend to make a virtual environment for python, to install necessary modules easy with pip install.</p>
+        <p>The plugin will run on any machine, but I have experienced socket problems on shared ifi servers when having short time between questions. The DasBot core system is under rewriting to deal with some of these issues. This development branch of DasBot is called socket-abs.</p>
+        <h2 id="download">Download</h2>
+        <p>The delivered version of the plugin, is found <a href="dasbotquiz.tar.gz">here</a>.
 
-<h2 id="requirements">Requirements</h2>
-<ul>
-  <li>Python 2.7 with sqlite3 module</li>
-  <li>DasBot</li>
-  <li>Question data, for example from Moxquizz, encoded in plain ascii or utf-8</li>
-  </ul>
-<p>The plugin comes with a Makefile, that installs DasBot with plugins and questions from Moxquizz. In addition to this, you will need Python 2.7 with sqlite support. Other DasBot-plugins have additional requirements. I recommend to make a virtual environment for python, to install necessary modules easy with pip install.</p>
-<p>The plugin will run on any machine, but I have experienced socket problems on shared ifi servers when having short time between questions. The DasBot core system is under rewriting to deal with some of these issues. This development branch of DasBot is called socket-abs.</p>
-              <h2 id="download">Download</h2>
-              <p>The delivered version of the plugin, is found <a href="dasbotquiz.tar.gz">here</a>.
-              
-<p>For updated versions:</p>
+        <p>For updated versions:</p>
         <ul>
           <li><a href="https://github.com/trondth/quizbot/zipball/master">Download <strong>ZIP File</strong></a></li>
           <li><a href="https://github.com/trondth/quizbot/tarball/master">Download <strong>TAR Ball</strong></a></li>
           <li><a href="https://github.com/trondth/quizbot">View On <strong>GitHub</strong></a></li>
         </ul>
 
-              <h2 id="standalone">Standalone installation</h2>
+        <h2 id="standalone">Standalone installation</h2>
 
-              <p>Run make, for installing this plugin together with DasBot and questions from
-                moxquiz in a DasBot subtree of current folder.</p>
+        <p>Run make, for installing this plugin together with DasBot and questions from
+        moxquiz in a DasBot subtree of current folder.</p>
 
-              <p>cd to DasBot/src, configure your bot: create a GlobalConfig.py based
-                on GlobalConfig.py.template - you will have to enable Cronjobs, and you should 
-                change nick and startup channel. Cronjobs are enabled in this line:</p>
-              <pre><code># CRON JOB BOT config
+        <p>cd to DasBot/src, configure your bot: create a GlobalConfig.py based
+        on GlobalConfig.py.template - you will have to enable Cronjobs, and you should 
+        change nick and startup channel. Cronjobs are enabled in this line:</p>
+        <pre><code># CRON JOB BOT config
 START_CRON_BOT = True</code></pre>
-              
-<p>Run bot with: </p>
-              <pre><code>python2.7 dasbot</code></pre>
-<p>
-              The preinstalled test-database uses the secret <code>secret</code> for encrypting passwords.
-</p>
 
-<p>
-              Login to the admin test user with sending the bot this message through irc:
-</p>
-              <pre><code>.login admin rootme</code></pre>
+        <p>Run bot with: </p>
+        <pre><code>python2.7 dasbot</code></pre>
+        <p>
+        The preinstalled test-database uses the secret <code>secret</code> for encrypting passwords.
+        </p>
 
-<p>
-              Load Quiz-plugin with:
-</p>
-              <pre><code>.load Quiz</code></pre>
+        <p>
+        Login to the admin test user with sending the bot this message through irc:
+        </p>
+        <pre><code>.login admin rootme</code></pre>
 
-<p>
-              Start Quiz with random questions:
-</p>
-              <pre><code>.q-start</code></pre>
+        <p>
+        Load Quiz-plugin with:
+        </p>
+        <pre><code>.load Quiz</code></pre>
 
-<p>
-              This plugin is tested with version 0.24 and 0.24a of DasBot runned in version 2.7 of python.
-</p>
+        <p>
+        Start Quiz with random questions:
+        </p>
+        <pre><code>.q-start</code></pre>
 
-              <h2 id="roadmap">Roadmap</h2>
+        <p>
+        This plugin is tested with version 0.24 and 0.24a of DasBot runned in version 2.7 of python.
+        </p>
 
-              
-<p>This is a roadmap for further development.</p>
-              
-<ul>
-<li>Question as topic</li>
-<li>Quiz-history in sqlite-db</li>
-<li>Length of Quiz-round - declaring round winner</li>
-<li>All-star-table</li>
-<li>Import questions to sqlite-db</li>
-<li>Adding questions via irc</li>
-<li>Banning and purging questions from user that adds junk questions</li>
-<li>Removing of questions from sqlite-db</li>
-<li>Editing of questions from sqlite-db</li>
-<li>Rating of questions in sqlite-db</li>
-<li>Better hint generation</li>
-<li>Implementing a similarity algorithm</li>
-<li>Personal statistics</li>
-<li>Fun - !steal and funny comments from the bot.</li>
-  </ul>
+        <h2 id="roadmap">Roadmap</h2>
 
-</div>
-            
-        <div class="hidden-xs hidden-sm hidden-md col-lg-3"> </div>
-        </div>
- <div class="row" id="qb-footer">
-        <footer class="container" role="contentinfo">
-<p>Made with <a href="http://getbootstrap.com">Bootstrap v3.0.1</a></p>
-<p>&copy; 2013 Trond Thorbjørnsen</p>
-          </footer>
-        </div>
+
+        <p>This is a roadmap for further development.</p>
+
+        <ul>
+          <li>Question as topic</li>
+          <li>Quiz-history in sqlite-db</li>
+          <li>Length of Quiz-round - declaring round winner</li>
+          <li>All-star-table</li>
+          <li>Import questions to sqlite-db</li>
+          <li>Adding questions via irc</li>
+          <li>Banning and purging questions from user that adds junk questions</li>
+          <li>Removing of questions from sqlite-db</li>
+          <li>Editing of questions from sqlite-db</li>
+          <li>Rating of questions in sqlite-db</li>
+          <li>Better hint generation</li>
+          <li>Implementing a similarity algorithm</li>
+          <li>Personal statistics</li>
+          <li>Fun - !steal and funny comments from the bot.</li>
+        </ul>
+
+      </div>
+
+      <div class="hidden-xs hidden-sm hidden-md col-lg-3"> </div>
+    </div>
+    <div class="row" id="qb-footer">
+      <footer class="container" role="contentinfo">
+        <p>Made with <a href="http://getbootstrap.com">Bootstrap v3.0.1</a></p>
+        <p>&copy; 2013 Trond Thorbjørnsen</p>
+      </footer>
+    </div>
     </body>
-  </html>
+    </html>
