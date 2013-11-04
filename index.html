@@ -2,7 +2,7 @@
 <html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Quiz-plugin for DasBot</title>
+    <title>Quiz-plugin for DasBot (GitHub page)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="dist/css/bootstrap.min.css" rel="stylesheet" media="screen" />
     <style type="text/css">
@@ -85,7 +85,6 @@
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">About</a></li>
             <li><a href="https://github.com/trondth/quizbot">GitHub</a></li>
-            <li><a href="api/">API</a></li>
           </ul>
         </div>
         
@@ -103,8 +102,6 @@
               <li><a href="#download">Download</a></li>
               <li><a href="#standalone">Installation</a></li>
               <li><a href="#roadmap">Roadmap</a></li>
-              <li><a href="#timesheet">Timesheet</a></li>
-              <li><a href="#inf3331">Description</a></li>
             </ul>
           </div>
 
@@ -116,7 +113,7 @@
               <div class="page-header">
                 <h1 id="quizbot">Quizbot for DasBot</h1>
               </div>
-<p>The Quiz-plugin for DasBot began as a project in INF3331. This page is made as a report for this project.</p>
+              <p>The Quiz-plugin for DasBot began as a project in INF3331. This page is based on the <a href="http://trondth.at.ifi.uio.no/quizbot">report page</a> for that project.</p>
 
 <h2 id="features">Features</h2>
               <p>The plugin can run quizzes in one or more irc-channels. You can load questions from text files in the same format as Moxquizz, and use different sets of questions in different channels.</p>
@@ -200,95 +197,6 @@ START_CRON_BOT = True</code></pre>
   </ul>
 
             
-              <h2 id="timesheet">Timesheet</h2>
-              
-<p>The main problem with developing this plugin has been to manage the threading. The DasBot core has a system for <a href="https://github.com/subfusc/DasBot/blob/master/PLUGIN_DOC.markdown">creating CronJobs</a>. This creates threads for jobs that should take place at a given time. There has especially been some problems with maximum recursion depth, when I implemented this.</p>
-               <table class="table">
-                 <tr>
-                   <td>Date</td><td>Hours</td><td>Work</td>
-                 <tr>
-                 </tr>
-                   <td>Oct 10</td><td>3</td><td>Setting up the basic of the plugin. Testing DasBot cronjobs.</td>
-                 <tr>
-                 </tr>
-                   <td>Oct 11</td><td>1</td><td>Small changes</td>
-                 <tr>
-                 </tr>
-                   <td>Oct 18</td><td>4</td><td>Quiz- and Question-classes. Parsing moxquizz text files</td>
-                 <tr>
-                 </tr>
-                   <td>Oct 20</td><td>4</td><td>Cronjob (main loop)</td>
-                 <tr>
-                 </tr>
-                   <td>Oct 21</td><td>6</td><td>Cronjob (main loop)</td>
-                 <tr>
-                 </tr>
-                   <td>Oct 21</td><td>6</td><td>Cronjob (main loop)</td>
-                 <tr>
-                 </tr>
-                   <td>Oct 27</td><td>6</td><td>Cronjob (main loop)</td>
-                 <tr>
-                 </tr>
-                   <td>Oct 28</td><td>3</td><td>Cleaning up, creating makefile</td>
-                 <tr>
-                 </tr>
-                   <td>Oct 29</td><td>2</td><td>Fixed charset problems and other file format errors</td>
-                 <tr>
-                 </tr>
-                   <td>Oct 29</td><td>4</td><td>Rank and bugfixes</td>
-                 <tr>
-                 </tr>
-                   <td>Oct 30</td><td>1</td><td>Created plugin.conf</td>
-                 <tr>
-                 </tr>
-                   <td>Oct 30</td><td>4</td><td>Created INSTALL and README, cleaned up</td>
-                 </tr>
-               </table>
-              <h2 id="inf3331">Description of INF3331-project</h2>
-This is the description (in Norwegian), submitted in front of the project.
-              
-<p lang="nb">
-              Programutvalget for Informatikk: språk og kommunikasjon har en IRC-bot
-              kjørende på noen IRC-kanaler, blant andre #isk og #iskbot på IRCNet.
-              Kjernen i botten er i stor grad skrevet av sindrewe, og
-              forskjellige folk har
-              bidratt med plugins. Se https://github.com/subfusc/DasBot for
-              informasjon.
-              </p>
-<p lang="nb">
-              Jeg ønsker å skrive en quiz-plugin til denne botten. Her er foreløpige
-              punkter:</p>
-<ul>
-<li>Løsning for hvilke kanaler hvor quiz-pluginen skal være aktiv</li>
-<li>Datastruktur for å samle spørsmål og svar - antagelig sqlite-db.</li>
-<li>Spørsmål kan kunne legges til ved å sende melding til botten</li>
-<li>Ban nick som adder tullespm - og slette alle spm fra brukeren</li>
-<li>Spørsmål skal kunne importeres fra en tekstfil</li>
-<li>Spørsmål skal kunne fjernes</li>
-<li>Spørsmål og svar skal kunne endres</li>
-<li>Rating av spm</li>
-<li>Man har runder, enten tidsbestemt - eller bestemt ut i fra antall spørsmål</li>
-<li>Etter hver runde kåres en vinner.</li>
-<li>Vinnere legges til i all-star-tabellen.</li>
-<li>Lagring av all-star-tabellen i sqlite-db</li>
-<li>Presentasjon av spørsmål må velges</li>
-<li>Løsning for å gi hint hvis ingen svarer rett (antall bokstaver, forbokstav, evt spesiallagde hint)</li>
-<li>Vurdering av likhet med svaret - skal fx både cairo og kairo godkjennes som svar på spm om hovedstad i egypt?</li>
-<li>Statistikk - hvem svarer på spørsmål når.</li>
-<li>Personlig statistikk</li>
-<li>Moro - !steal og andre ting man kan skrive for å lage en morsom reaksjon fra botten</li>
-  </ul>
-
-              </p>
-<p lang="nb">
-              Antagelig vil jeg ikke rekke alt dette i løpet av fire
-              arbeidsdager, men en
-              grunnstruktur bør jeg ha på plass, altså - en fungerende quizbot, som
-              blir utvidet etter hvert.
-              </p>
-
-                
-        </div>
         <div class="hidden-xs hidden-sm hidden-md col-lg-3"> </div>
         </div>
  <div class="row" id="qb-footer">
