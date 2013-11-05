@@ -52,6 +52,7 @@ class Quiz(object):
         self.files = {}
         self.file_re = re.compile(r'(questions.)([^\.]+)')
         self.score = {}
+        self.sql_db = None
 
     def __str__(self):
         return "Quiz i: {}".format(self.channel)
