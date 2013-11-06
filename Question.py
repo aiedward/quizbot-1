@@ -1,4 +1,4 @@
-import GlobalConfig as conf
+#import GlobalConfig as conf
 
 import glob
 import re
@@ -24,6 +24,7 @@ class Question(object):
         self.data = {}
         self.status = 'new'
         self.regex = None
+        self.qid = 1 # TODO
         self.active = False # TODO control if question is active
 
     def getStatus(self):

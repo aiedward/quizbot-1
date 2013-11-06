@@ -52,8 +52,89 @@ class Quiz(object):
         self.files = {}
         self.file_re = re.compile(r'(questions.)([^\.]+)')
         self.score = {}
-        self.sql_db = None
+        self.utable = "users"
+        self.db_open = False
+        self.sql_db = self.connect(pluginconf.get('db','path') + channel + pluginconf.get('db','file'))
+        
+    def connect(self, database_name=None):
+        """
+        Connect to a quiz database.
 
+        @type database_name: string
+        @param database_name: Path to the database.
+
+        @rtype: None
+        """
+        if (database_name):
+            self.sql_db = sqlite3.connect(database_name) if database_name else None
+            self.db_open = True if self.sql_db else False
+        
+        if self.db_open:
+            self._conditionalCreateOverview()
+        else:
+            raise DatabaseIsNotOpenError('The database is not open')
+
+    def __exe(self, string, values=None):
+        if VERBOSE: print((string + " " + str(values) if values else string + " --") + "\n")
+        if values:
+            return self.sql_db.execute(string, values)
+        else:
+            return self.sql_db.execute(string)
+            
+    def __com(self):
+        self.sql_db.commit()
+            
+    def _conditionalCreateOverview(self):
+        """
+        users","questions","session
+        """
+        self.__exe("CREATE TABLE IF NOT EXISTS " + self.utable
+                       + " (uid INTEGER PRIMARY KEY, entity TEXT UNIQUE NOT NULL);")
+        self.__exe("CREATE TABLE IF NOT EXISTS " + "questions" #self.utable
+                       + " (qid INTEGER PRIMARY KEY, \
+                            source TEXT NOT NULL, \
+                            question TEXT NOT NULL, \
+                            answer TEXT NOT NULL, \
+                            category TEXT, \
+                            regex TEXT, \
+                            author TEXT, \
+                            level TEXT, \
+                            comment TEXT, \
+                            value INTEGER, \
+                            tips TEXT \
+                       );")
+        self.__exe("CREATE TABLE IF NOT EXISTS " + "session" #self.utable
+                       + " (sid INTEGER PRIMARY KEY, \
+                            active INTEGER, \
+                            qid TEXT NOT NULL, \
+                            uid TEXT, \
+                            time INTEGER NOT NULL);")
+        self.__exe("CREATE TABLE IF NOT EXISTS " + "allstars" #self.utable
+                       + " (uid INTEGER PRIMARY KEY, \
+                            sessioncount INTEGER, \
+                            questioncount INTEGER \
+                            );")
+        self.__com()
+
+    def _userExists(self, entity):
+        if self.lowercase: entity.lower()
+        r = self.__exe("SELECT * FROM {table} WHERE entity = ? ;".format(table = self.utable),
+                       (entity.lower() if self.lowercase else entity, )).fetchone()
+        # stderr.write(str(r) + "\n")
+        print r
+        return r[0] if r else False
+        
+    def disconnect(self):
+        """
+        Clean up and Disconnect from the database. Call this before exiting to ensure
+        that all changes are commited.
+
+        @rtype: None
+        """
+        if self.db_open:
+            self.sql_db.close()
+            self.db_open = False
+        
     def __str__(self):
         return "Quiz i: {}".format(self.channel)
 
@@ -170,12 +251,14 @@ class Quiz(object):
         """
         TODO. Implement saving stats to db.
         """
-        if VERBOSE: print "add to DB"
-        if nick in self.score.keys(): 
-            self.score[nick] += 1
-        else:
-            self.score[nick] = 1
+        if VERBOSE:
+            print "add to DB"
+        if self.db_open:
+            uid = self._userExists(nick)
+            self.__exe("INSERT INTO session (active qid uid time) VALUES (1, ?, ?, ?)",
+                       (self.qid, uid, time()))
         
+            
     def listen(self, msg, channel, nick):
         """
         Checks if answer is correct
@@ -288,3 +371,11 @@ class Quiz(object):
         if VERBOSE: print("quizdata_load: {}".format(args))
         self.loadQuestions(args)
         return "TODO. quizdata_load"
+
+    
+if __name__ == '__main__':
+    import ConfigParser
+    config = ConfigParser.ConfigParser()
+    config.readfp(open("plugin.cfg"))
+    q = Quiz("", "foobar", config)
+    
