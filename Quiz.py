@@ -54,7 +54,8 @@ class Quiz(object):
         self.score = {}
         self.utable = "users"
         self.db_open = False
-        self.sql_db = self.connect(pluginconf.get('db','path') + channel + pluginconf.get('db','file'))
+        self.sql_db = None
+        self.connect(pluginconf.get('db','path') + channel + pluginconf.get('db','file'))
         
     def connect(self, database_name=None):
         """
@@ -75,6 +76,13 @@ class Quiz(object):
             raise DatabaseIsNotOpenError('The database is not open')
 
     def __exe(self, string, values=None):
+        if VERBOSE: print((string + " " + str(values) if values else string + " --") + "\n")
+        if values:
+            return self.sql_db.execute(string, values)
+        else:
+            return self.sql_db.execute(string)
+
+    def exe(self, string, values=None):
         if VERBOSE: print((string + " " + str(values) if values else string + " --") + "\n")
         if values:
             return self.sql_db.execute(string, values)
@@ -106,8 +114,8 @@ class Quiz(object):
         self.__exe("CREATE TABLE IF NOT EXISTS " + "session" #self.utable
                        + " (sid INTEGER PRIMARY KEY, \
                             active INTEGER, \
-                            qid TEXT NOT NULL, \
-                            uid TEXT, \
+                            qid INTEGER, \
+                            uid INTEGER, \
                             time INTEGER NOT NULL);")
         self.__exe("CREATE TABLE IF NOT EXISTS " + "allstars" #self.utable
                        + " (uid INTEGER PRIMARY KEY, \
@@ -117,9 +125,15 @@ class Quiz(object):
         self.__com()
 
     def _userExists(self, entity):
-        if self.lowercase: entity.lower()
+        #if self.lowercase: entity.lower()
         r = self.__exe("SELECT * FROM {table} WHERE entity = ? ;".format(table = self.utable),
-                       (entity.lower() if self.lowercase else entity, )).fetchone()
+                       (entity.lower(), )).fetchone() #if self.lowercase else entity
+        if not r:
+            self.__exe("INSERT INTO {table} (entity) VALUES (?) ;".format(table = self.utable), (entity.lower(), ))
+            r = self.__exe("SELECT * FROM {table} WHERE entity = ? ;".format(table = self.utable),
+                           (entity.lower(), )).fetchone() #if self.lowercase else entity
+            self.__exe("INSERT INTO allstars (uid, sessioncount, questioncount) VALUES (?, 0, 0)", (r[0], ))
+
         # stderr.write(str(r) + "\n")
         print r
         return r[0] if r else False
@@ -239,13 +253,18 @@ class Quiz(object):
             else:
                 return [(0, self.channel, "Tip nr {}. {}".format(self.active.getStatus(), tip))]
         return [(0, self.channel, "TIP status: {}".format(self.active.getStatus()))]
-
+    
     def getRank(self):
         """
         @rtype: list
         @return: score
         """
-        return self.score
+        try:
+            return [ row for row in self.__exe("SELECT a.questioncount,u.entity from users AS u JOIN allstars AS a ON u.uid=a.uid;") ]
+        except Exception:
+            return []
+        
+        #return self.score
     
     def correctAnswer(self, nick):
         """
@@ -255,8 +274,9 @@ class Quiz(object):
             print "add to DB"
         if self.db_open:
             uid = self._userExists(nick)
-            self.__exe("INSERT INTO session (active qid uid time) VALUES (1, ?, ?, ?)",
-                       (self.qid, uid, time()))
+            self.__exe("INSERT INTO session (active, qid, uid, time) VALUES (1, ?, ?, ?)",
+                       (self.active.getID(), uid, time.time()))
+            self.__exe("UPDATE allstars SET questioncount=questioncount + 1 WHERE uid=?", (uid, ))
         
             
     def listen(self, msg, channel, nick):
@@ -378,4 +398,6 @@ if __name__ == '__main__':
     config = ConfigParser.ConfigParser()
     config.readfp(open("plugin.cfg"))
     q = Quiz("", "foobar", config)
-    
+    q.loadQuestions()
+    q.getNewQuestion()
+    q.runQuiz()

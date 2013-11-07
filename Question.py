@@ -33,6 +33,12 @@ class Question(object):
         """        
         return self.status
 
+    def getID(self):
+        """
+        TODO
+        """
+        return 1
+
     def reset(self):
         """
         Resets status for question.

@@ -59,15 +59,15 @@ class Plugin(object):
         if command == 'q-rank':
             if channel in self.quizzes:
                 rank = []
-                tmp = self.quizzes[channel].getRank()
-                print("Q-RANK: {}".format(tmp))
-                if len(tmp) == 0:
-                    return [(0, channel, "Ingen har svart rett foreløpig!")]
-                ranklist = [(v,k) for k,v in tmp.items()]
+                ranklist = self.quizzes[channel].getRank()
+                #print("Q-RANK: {}".format(tmp))
+                #if len(tmp) == 0:
+                #    return [(0, channel, "Ingen har svart rett foreløpig!")]
+                #ranklist = [(v,k) for k,v in tmp.items()]
                 ranklist.sort(reverse=True)
                 for i, item in enumerate(ranklist):
                     rank.insert(0, (0, channel, "{}. {} ({})".format(i+1, item[1], item[0]))) #k, v)))
-                rank.reverse()
+                #rank.reverse()
                 return rank[0:3]
             return [(0, channel, kwargs['from_nick'], '*Kremt*, kjører ingen quiz her.')]
 
